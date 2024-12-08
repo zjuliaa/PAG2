@@ -1,1 +1,0 @@
-print("Testuje czy mi dziala")
