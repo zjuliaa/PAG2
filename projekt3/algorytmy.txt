@@ -1,0 +1,49 @@
+#projekcja grafu
+MATCH (source:Point)-[r:CONNECTS_TO]-(target:Point)
+RETURN gds.graph.project(
+  'myGraph6',           
+  target, 
+  source, 
+  {
+  sourceNodeProperties: source { .x, .y },
+  targetNodeProperties: target { .x, .y },
+  relationshipProperties: r{.length}
+  }   
+)
+
+#algorytm Dijkstry
+CALL gds.shortestPath.dijkstra.stream('myGraph6', {
+  sourceNode: 6 - 1,  
+  targetNode: 1- 1,   
+  relationshipWeightProperty: 'length' 
+}) 
+YIELD index, sourceNode, targetNode, totalCost, nodeIds, costs, path
+WITH index, sourceNode, targetNode, totalCost, nodeIds, costs, path
+RETURN
+  index,
+  sourceNode + 1 AS SourceNodeID,  
+  targetNode + 1 AS TargetNodeID,  
+  totalCost,
+  [n IN nodeIds | n + 1] AS NodeIds,  
+  costs,
+  [n IN nodes(path) | ID(n) + 1] AS path  
+ORDER BY index;
+
+#algorytm A*
+CALL gds.shortestPath.astar.stream('myGraph6', {
+  sourceNode: 6-1,
+  targetNode: 1-1,
+  latitudeProperty: 'x',
+  longitudeProperty: 'y',
+  relationshipWeightProperty: 'length'
+ })
+ YIELD index, sourceNode, targetNode, totalCost, nodeIds, costs, path
+ RETURN
+  index,
+  sourceNode + 1 AS SourceNodeID,  
+  targetNode + 1 AS TargetNodeID,  
+  totalCost,
+  [n IN nodeIds | n + 1] AS NodeIds,  
+  costs,
+  [n IN nodes(path) | ID(n) + 1] AS path  
+ORDER BY index;
