@@ -1,16 +1,14 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
-# from tkcalendar import Calendar
 import pandas as pd
 import geopandas as gpd
 import redis
 from datetime import datetime, timedelta
 from shapely.geometry import Point
 from pyproj import Transformer
-from functions1 import *  # Assuming this contains helper functions like dms_to_decimal, statystyki_wybrana_data, etc.
+from functions1 import *  
 import os
 import pytz
-# from suntime import sun, LocationInfo
 from pymongo import MongoClient
 import json
 from bson import ObjectId
